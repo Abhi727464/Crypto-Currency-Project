@@ -9,6 +9,7 @@ import { loadFull } from "tsparticles";
 import { useCallback } from "react";
 
 
+
 const LandingPageComponent = () => {
 
   const options = {

@@ -1,4 +1,4 @@
-import { getAccordionDetailsUtilityClass } from "@mui/material";
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Header from "../components/Common/Header";
@@ -7,13 +7,25 @@ import Tabs from "../components/Dashboard/Tabs/Tabs";
 import Loader from "../components/Loader/Loader";
 // import BackToTop from '../components/Common/BackToTop'
 import TopButton from "../components/Common/BackToTop/BackToTop";
-import Pagination from "../components/Dashboard/Pagination/Pagination";
+// import Pagination from "../components/Dashboard/Pagination/Pagination";
 import PaginationComponent from "../components/Dashboard/Pagination/Pagination";
 
 const DashboardPage = () => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState([]);
+
+  const [pageNumber, setPageNumber] = useState(1);
+  const [paginatedCoins, setPaginatedCoins] = useState([]);
+  const handlePageChange = (event, value) => {
+    console.log(value);
+    setPageNumber(value);
+    var startingIndex = (value - 1) * 12;
+    setPaginatedCoins(coins.slice(startingIndex, startingIndex + 12));
+  };
+
+
+
   const onChange = (e) => setSearch(e.target.value);
   useEffect(() => {
     getData();
@@ -23,9 +35,8 @@ const DashboardPage = () => {
     if (
       coin.name.toLowerCase().includes(search) ||
       coin.symbol.toLowerCase().includes(search)
-    ) {
+    ) 
       return coin;
-    }
   });
   const getData = () => {
     setLoading(true);
@@ -38,6 +49,7 @@ const DashboardPage = () => {
         if (response.status === 200) {
           console.log(response.data);
           setCoins(response.data);
+          setPaginatedCoins(response.data.slice(0,12));
           setLoading(false);
         }
       })
@@ -47,16 +59,24 @@ const DashboardPage = () => {
   };
   return (
     <>
-     <TopButton/>
+      <TopButton />
       {loading ? (
-        <><Loader/></>
+        <>
+          <Loader />
+        </>
       ) : (
         <div>
           <Header />
           <Search search={search} onChange={onChange} />
-          <Tabs coins={search ? filteredCoins : coins} />
-          <PaginationComponent/>
-         
+          <Tabs coins={search ? filteredCoins : paginatedCoins} />
+         {
+          !search && (
+            <PaginationComponent
+            pageNumber={pageNumber}
+            handleChange={handlePageChange}
+          />
+          )
+         }
         </div>
       )}
     </>

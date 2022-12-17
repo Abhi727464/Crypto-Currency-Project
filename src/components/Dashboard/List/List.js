@@ -6,6 +6,7 @@ import { convertNumbers } from "../../../functions/convertNumbers";
 import { motion } from "framer-motion";
 const List = ({ coin,delay }) => {
   return (
+    <a href={`/coin/${coin.id}`}>
     <motion.tr
     initial={{ opacity: 0, y: 50 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -62,6 +63,7 @@ const List = ({ coin,delay }) => {
             </span>
           </td>
     </motion.tr>
+    </a>
   );
 };
 

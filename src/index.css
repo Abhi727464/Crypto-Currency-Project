@@ -10,8 +10,9 @@ html{
 
   /* #23BDE0  #008FFC */
   --grey: rgb(168, 168, 168);
-  /* --darkgrey: #1b1b1b; */
+  /* --darkgrey: #959595; */
   --darkgrey:#000505;
+  
   --green: #00bd4c;
   --red: #f94141;
 }
