@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+html{
+  scroll-behavior: smooth;
+}
+:root {
+  --white: #fff;
+  --black: #111;
+  /* --blue: #3a80e9;  */
+  --blue: #35b1ce;
+
+  /* #23BDE0  #008FFC */
+  --grey: rgb(168, 168, 168);
+  /* --darkgrey: #1b1b1b; */
+  --darkgrey:#000505;
+  --green: #00bd4c;
+  --red: #f94141;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--black);
+  background: #0f2027; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #0f2027, #000000, #203a43);
+  background: linear-gradient(to right,#060f12, #041217, #0a191f);
+  color: var(--white);
+  /*  min-height: 150vh; */
+}
+
+::selection {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--blue);
+  border-radius: 10px;
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+
+a {
+  text-decoration: none;
+  color: var(--white) !important;
+}
+
+/* CSS */
