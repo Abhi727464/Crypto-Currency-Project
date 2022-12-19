@@ -9,6 +9,7 @@ import LineChart from "../components/LineChart/LineChart";
 import Loader from "../components/Loader/Loader";
 import SelectDays from "../components/SelectDays/SelectDays";
 import { coinObject } from "../functions/coinObject";
+import { convertDate } from "../functions/convertDate";
 
 const Coin = () => {
   const { id } = useParams();
@@ -20,6 +21,12 @@ const Coin = () => {
     labels: [],
     datasets: [],
   });
+
+  const handleDaysChange = async (event) => {
+    setDays(event.target.value);
+    getPrices(event.target.value)
+    }
+
 
   useEffect(() => {
     getData();
@@ -33,17 +40,36 @@ const Coin = () => {
         console.log("RESPONSE>>>", response.data);
         setCoinData(response.data);
         setLoading(false);
-        setCoin({
-          id: response.data.id,
-          name: response.data.name,
-          symbol: response.data.symbol,
-          image: response.data.image.large,
-          desc: response.data.description.en,
-          price_change_percentage_24h:
-            response.data.market_data.price_change_percentage_24h,
-          total_volume: response.data.market_data.total_volume.usd,
-          current_price: response.data.market_data.current_price.usd,
-          market_cap: response.data.market_data.market_cap.usd,
+        getPrices(days) 
+        coinObject(setCoin, response.data)
+      })
+      .catch((error) => {
+        console.log("ERROR>>>", error);
+        setLoading(false);
+      });
+  };
+  const getPrices = (days) => {
+    setLoading(false);
+    axios
+      .get(
+        `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${days}&interval=daily`
+      )
+      .then((response) => {
+        console.log("PRICES>>>>", response.data.prices);
+        setChartData({
+          labels: response.data.prices.map((data) => convertDate(data[0])),
+          datasets: [
+            {
+              label: coin?.name ?? "",
+              data: response.data.prices.map((data) => data[1]),
+              borderWidth: 1.5,
+              fill: true,
+              tension: 0.25,
+              backgroundColor: "rgba(53, 177, 206,0.2)",
+              borderColor: "#35b1ce",
+              pointRadius: 0,
+            },
+          ],
         });
       })
       .catch((error) => {
@@ -60,19 +86,19 @@ const Coin = () => {
         <>
           <Header />
           <div className="gray-wrapper">
-          <List coin={coin} delay={0.1} />
-          
+            <List coin={coin} delay={0.1} />
           </div>
           <div className="gray-wrapper">
-          <SelectDays/>
-          <LineChart/>
+            <SelectDays days={days} handleDaysChange={handleDaysChange
+            }/>
+            <LineChart chartData={chartData} />
           </div>
-          
-          <CoinInfo name={coin.name} desc={coin.desc}/>
+
+          <CoinInfo name={coin.name} desc={coin.desc} />
         </>
       )}
     </div>
   );
-};
+}
 
 export default Coin;
