@@ -5,15 +5,13 @@ import Header from "../components/Common/Header";
 import Search from "../components/Dashboard/Search/Search";
 import Tabs from "../components/Dashboard/Tabs/Tabs";
 import Loader from "../components/Loader/Loader";
-// import BackToTop from '../components/Common/BackToTop'
 import TopButton from "../components/Common/BackToTop/BackToTop";
-// import Pagination from "../components/Dashboard/Pagination/Pagination";
 import PaginationComponent from "../components/Dashboard/Pagination/Pagination";
 
 const DashboardPage = () => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState("");
 
   const [pageNumber, setPageNumber] = useState(1);
   const [paginatedCoins, setPaginatedCoins] = useState([]);
@@ -33,8 +31,9 @@ const DashboardPage = () => {
 
   var filteredCoins = coins.filter((coin) => {
     if (
-      coin.name.toLowerCase().includes(search) ||
-      coin.symbol.toLowerCase().includes(search)
+      coin.name.toLowerCase().includes(search.toLowerCase()) ||
+      
+      coin.symbol.toLowerCase().includes(search.toLowerCase())
     ) 
       return coin;
   });

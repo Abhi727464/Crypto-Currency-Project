@@ -1,10 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import CoinInfo from "../components/Coin/CoinInfo";
 import Header from "../components/Common/Header";
 import List from "../components/Dashboard/List/List";
+import LineChart from "../components/LineChart/LineChart";
 
 import Loader from "../components/Loader/Loader";
+import SelectDays from "../components/SelectDays/SelectDays";
 import { coinObject } from "../functions/coinObject";
 
 const Coin = () => {
@@ -56,7 +59,16 @@ const Coin = () => {
       ) : (
         <>
           <Header />
+          <div className="gray-wrapper">
           <List coin={coin} delay={0.1} />
+          
+          </div>
+          <div className="gray-wrapper">
+          <SelectDays/>
+          <LineChart/>
+          </div>
+          
+          <CoinInfo name={coin.name} desc={coin.desc}/>
         </>
       )}
     </div>
