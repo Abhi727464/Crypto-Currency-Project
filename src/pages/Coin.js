@@ -1,7 +1,8 @@
-import axios from "axios";
+// import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CoinInfo from "../components/Coin/CoinInfo";
+import PriceToggle from "../components/Coin/PriceToggle/PriceToggle";
 import Header from "../components/Common/Header";
 import List from "../components/Dashboard/List/List";
 import LineChart from "../components/LineChart/LineChart";
@@ -9,14 +10,17 @@ import LineChart from "../components/LineChart/LineChart";
 import Loader from "../components/Loader/Loader";
 import SelectDays from "../components/SelectDays/SelectDays";
 import { coinObject } from "../functions/coinObject";
-import { convertDate } from "../functions/convertDate";
+// import { convertDate } from "../functions/convertDate";
+import { geetCoinData } from "../functions/getCoinData";
+import { getCoinPrices } from "../functions/getCoinPrices";
+import { settingChartData } from "../functions/settingChartData";
 
 const Coin = () => {
   const { id } = useParams();
-  const [coinData, setCoinData] = useState();
   const [coin, setCoin] = useState();
   const [loading, setLoading] = useState(false);
   const [days, setDays] = useState(120);
+  const [priceType,setPriceType] = useState("prices")
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [],
@@ -24,59 +28,40 @@ const Coin = () => {
 
   const handleDaysChange = async (event) => {
     setDays(event.target.value);
-    getPrices(event.target.value)
+    // getPrices(event.target.value)
+    const prices = await getCoinPrices(id, event.target.value);
+    if(prices){
+      settingChartData(setChartData, coin, prices)
+    }
     }
 
+    const handlePriceTypeChange = async (event) => {
+      setPriceType(event.target.value);
+      const prices = await getCoinPrices(id, days, event.target.value);
+      if (prices) {
+        settingChartData(setChartData, coin, prices);
+      }
+    };
 
   useEffect(() => {
     getData();
   }, [id]);
 
-  const getData = () => {
+  const getData = async() => {
     setLoading(true);
-    axios
-      .get(`https://api.coingecko.com/api/v3/coins/${id}`)
-      .then((response) => {
-        console.log("RESPONSE>>>", response.data);
-        setCoinData(response.data);
-        setLoading(false);
-        getPrices(days) 
-        coinObject(setCoin, response.data)
-      })
-      .catch((error) => {
-        console.log("ERROR>>>", error);
-        setLoading(false);
-      });
-  };
-  const getPrices = (days) => {
+   const data = await geetCoinData(id);
+   if(data){
     setLoading(false);
-    axios
-      .get(
-        `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${days}&interval=daily`
-      )
-      .then((response) => {
-        console.log("PRICES>>>>", response.data.prices);
-        setChartData({
-          labels: response.data.prices.map((data) => convertDate(data[0])),
-          datasets: [
-            {
-              label: coin?.name ?? "",
-              data: response.data.prices.map((data) => data[1]),
-              borderWidth: 1.5,
-              fill: true,
-              tension: 0.25,
-              backgroundColor: "rgba(53, 177, 206,0.2)",
-              borderColor: "#35b1ce",
-              pointRadius: 0,
-            },
-          ],
-        });
-      })
-      .catch((error) => {
-        console.log("ERROR>>>", error);
-        setLoading(false);
-      });
+    coinObject(setCoin,data) //for coin object being passed in the list
+   const prices = await  getCoinPrices(id,days)
+   if(prices){
+    settingChartData(setChartData, data, prices);
+    setLoading(false)
+   }
+   }
   };
+
+
 
   return (
     <div>
@@ -91,6 +76,7 @@ const Coin = () => {
           <div className="gray-wrapper">
             <SelectDays days={days} handleDaysChange={handleDaysChange
             }/>
+            <PriceToggle handlePriceTypeChange={handlePriceTypeChange} priceType={priceType}/>
             <LineChart chartData={chartData} />
           </div>
 
