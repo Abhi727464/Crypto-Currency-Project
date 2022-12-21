@@ -20,7 +20,7 @@ const Coin = () => {
   const [coin, setCoin] = useState();
   const [loading, setLoading] = useState(false);
   const [days, setDays] = useState(120);
-  const [priceType,setPriceType] = useState("prices")
+  const [priceType, setPriceType] = useState("prices");
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [],
@@ -29,39 +29,37 @@ const Coin = () => {
   const handleDaysChange = async (event) => {
     setDays(event.target.value);
     // getPrices(event.target.value)
-    const prices = await getCoinPrices(id, event.target.value);
-    if(prices){
-      settingChartData(setChartData, coin, prices)
+    const prices = await getCoinPrices(id, event.target.value,priceType);
+    if (prices) {
+      settingChartData(setChartData, coin, prices);
     }
-    }
+  };
 
-    const handlePriceTypeChange = async (event) => {
-      setPriceType(event.target.value);
-      const prices = await getCoinPrices(id, days, event.target.value);
-      if (prices) {
-        settingChartData(setChartData, coin, prices);
-      }
-    };
+  const handlePriceTypeChange = async (event) => {
+    setPriceType(event.target.value);
+    const prices = await getCoinPrices(id, days, event.target.value);
+    if (prices) {
+      settingChartData(setChartData, coin, prices);
+    }
+  };
 
   useEffect(() => {
     getData();
   }, [id]);
 
-  const getData = async() => {
+  const getData = async () => {
     setLoading(true);
-   const data = await geetCoinData(id);
-   if(data){
-    setLoading(false);
-    coinObject(setCoin,data) //for coin object being passed in the list
-   const prices = await  getCoinPrices(id,days)
-   if(prices){
-    settingChartData(setChartData, data, prices);
-    setLoading(false)
-   }
-   }
+    const data = await geetCoinData(id);
+    if (data) {
+      setLoading(false);
+      coinObject(setCoin, data); //for coin object being passed in the list
+      const prices = await getCoinPrices(id, days,priceType);
+      if (prices) {
+        settingChartData(setChartData, data, prices);
+        setLoading(false);
+      }
+    }
   };
-
-
 
   return (
     <div>
@@ -74,10 +72,12 @@ const Coin = () => {
             <List coin={coin} delay={0.1} />
           </div>
           <div className="gray-wrapper">
-            <SelectDays days={days} handleDaysChange={handleDaysChange
-            }/>
-            <PriceToggle handlePriceTypeChange={handlePriceTypeChange} priceType={priceType}/>
-            <LineChart chartData={chartData} />
+            <SelectDays days={days} handleDaysChange={handleDaysChange} />
+            <PriceToggle
+              handlePriceTypeChange={handlePriceTypeChange}
+              priceType={priceType}
+            />
+            <LineChart chartData={chartData} priceType={priceType}/>
           </div>
 
           <CoinInfo name={coin.name} desc={coin.desc} />
@@ -85,6 +85,6 @@ const Coin = () => {
       )}
     </div>
   );
-}
+};
 
 export default Coin;
