@@ -11,7 +11,7 @@ import Loader from "../components/Loader/Loader";
 import SelectDays from "../components/SelectDays/SelectDays";
 import { coinObject } from "../functions/coinObject";
 // import { convertDate } from "../functions/convertDate";
-import { geetCoinData } from "../functions/getCoinData";
+import { getCoinData } from "../functions/getCoinData";
 import { getCoinPrices } from "../functions/getCoinPrices";
 import { settingChartData } from "../functions/settingChartData";
 
@@ -31,7 +31,7 @@ const Coin = () => {
     // getPrices(event.target.value)
     const prices = await getCoinPrices(id, event.target.value,priceType);
     if (prices) {
-      settingChartData(setChartData, coin, prices);
+      settingChartData(setChartData, prices,coin);
     }
   };
 
@@ -39,7 +39,7 @@ const Coin = () => {
     setPriceType(event.target.value);
     const prices = await getCoinPrices(id, days, event.target.value);
     if (prices) {
-      settingChartData(setChartData, coin, prices);
+      settingChartData(setChartData, prices,coin);
     }
   };
 
@@ -49,7 +49,7 @@ const Coin = () => {
 
   const getData = async () => {
     setLoading(true);
-    const data = await geetCoinData(id);
+    const data = await getCoinData(id);
     if (data) {
       setLoading(false);
       coinObject(setCoin, data); //for coin object being passed in the list
