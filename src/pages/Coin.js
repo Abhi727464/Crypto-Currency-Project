@@ -55,7 +55,7 @@ const Coin = () => {
       coinObject(setCoin, data); //for coin object being passed in the list
       const prices = await getCoinPrices(id, days,priceType);
       if (prices) {
-        settingChartData(setChartData, data, prices);
+        settingChartData(setChartData,prices, data);
         setLoading(false);
       }
     }

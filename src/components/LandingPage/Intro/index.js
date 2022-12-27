@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import Particles from "react-particles";
 import { loadFull } from "tsparticles";
 import { useCallback } from "react";
+import { RWebShare } from "react-web-share";
 
 
 
@@ -119,8 +120,24 @@ const LandingPageComponent = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
+          <a href="/dashboard">
           <Button text="Dashboard" />
-          <Button text="Share" outLined={true} />
+          </a>
+         
+          <RWebShare
+            data={{
+              text: "Crypto Dashboard made using React JS.",
+              url: "https://crypto-dashboard-dec.netlify.app/",
+              title: "CryptoDashboard.",
+            }}
+            onClick={() => console.log("shared successfully!")}
+          >
+            <Button text="Share" outLined={true} />
+          </RWebShare>
+
+
+
+         
         </motion.div>
       </div>
       <div className="landing-right">

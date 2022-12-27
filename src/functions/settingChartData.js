@@ -16,9 +16,10 @@ export const settingChartData = (
         borderWidth: 1,
         fill: true,
         tension: 0.25,
-        backgroundColor: "rgba(58, 128, 233,0.2)",
+        backgroundColor: prices2 ? "transparent" : "rgba(58, 128, 233,0.2)",
         borderColor: "#35b1ce",
         pointRadius: 0,
+        yAxisID: "y1",
       },
       prices2 && {
         label: coin2?.name ?? "",
@@ -26,10 +27,11 @@ export const settingChartData = (
         borderWidth: 1,
         fill: true,
         tension: 0.25,
-        backgroundColor: "rgba(58, 128, 233,0.2)",
-        borderColor: "#35b1ce",
+        backgroundColor: prices2 ? "transparent" : "rgb(0, 189, 76,0.2)",
+        borderColor: "#00bd4c",
         pointRadius: 0,
-      }
+        yAxisID: "y2",
+      },
     ],
   });
 };

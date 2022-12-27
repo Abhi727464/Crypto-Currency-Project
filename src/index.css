@@ -15,6 +15,31 @@ html{
   
   --green: #00bd4c;
   --red: #f94141;
+  --darkblack: #000000;
+  --blue1:#060f12;
+  --blue2:#041217;
+  --blue3:#0a191f;
+}
+
+[data-theme="dark"] {
+  --white: #fff;
+  --black: #111;
+  --grey: #888;
+  /* --darkgrey: #1b1b1b; */
+  --darkgrey:#000505;
+
+}
+
+[data-theme="light"] {
+  --white: #111;
+  --black: #fff;
+  --grey: #888;
+  --darkgrey: #f3f3f3;
+  --blue1:#ffff;
+  --blue2:#ffff;
+  --blue3:#ffff;
+
+  
 }
 
 body {
@@ -22,11 +47,9 @@ body {
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--black);
-  background: #0f2027; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #0f2027, #000000, #203a43);
-  background: linear-gradient(to right,#060f12, #041217, #0a191f);
+  background: linear-gradient(to right,var(--blue1), var(--blue2), var(--blue3));
   color: var(--white);
+  overflow-x: hidden;
   /*  min-height: 150vh; */
 }
 
@@ -57,3 +80,28 @@ a {
 }
 
 /* CSS */
+.cursor {
+  position: fixed;
+  transform: translateX(-50%) translateY(-50%);
+  pointer-events: none;
+  background-color: var(--blue);
+  z-index: 10000;
+  border: 2px solid var(--blue);
+  height: 0.3rem;
+  width: 0.3rem;
+  border-radius: 50%;
+  transition: all 200ms ease-out;
+}
+
+.cursor-pointer {
+  position: fixed;
+  border-radius: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  pointer-events: none;
+  background-color: transparent;
+  z-index: 10000;
+  border: 2px solid var(--blue);
+  height: 1.5rem;
+  width: 1.5rem;
+  transition: all 400ms ease-out;
+}

@@ -2,7 +2,7 @@
     position: sticky;
     top: 0;
     background-color: var(--darkgrey);
-    background: linear-gradient(to right,#060f12, #041217, #0a191f );;
+    background: linear-gradient(to right,var(--blue1), var(--blue2), var(--blue3));
     padding: 1rem 3rem;
     display: flex;
     justify-content: space-between;

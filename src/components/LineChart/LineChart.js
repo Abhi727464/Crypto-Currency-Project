@@ -4,7 +4,7 @@ import { Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 import { convertNumbers } from "../../functions/convertNumbers";
 
-const LineChart = ({ chartData, priceType}) => {
+const LineChart = ({ chartData, priceType, multiAxis }) => {
   const options = {
     plugins: {
       legend: {
@@ -18,18 +18,34 @@ const LineChart = ({ chartData, priceType}) => {
     },
     scales: {
       y: {
+        type: "linear",
+        display: true,
+        position: "left",
         ticks: {
           callback: function (value) {
-            if(priceType=="total_volumes"){
+            if (priceType == "total_volumes") {
               return convertNumbers(value);
-            }
-            else if(priceType=="market_caps"){
+            } else if (priceType == "market_caps") {
               return "$" + convertNumbers(value);
-            }
-            else{
+            } else {
               return "$" + value.toLocaleString();
             }
-            
+          },
+        },
+      },
+      y2:multiAxis && {
+        type: "linear",
+        display: true,
+        position: "right",
+        ticks: {
+          callback: function (value) {
+            if (priceType == "total_volumes") {
+              return convertNumbers(value);
+            } else if (priceType == "market_caps") {
+              return "$" + convertNumbers(value);
+            } else {
+              return "$" + value.toLocaleString();
+            }
           },
         },
       },
@@ -39,3 +55,4 @@ const LineChart = ({ chartData, priceType}) => {
 };
 
 export default LineChart;
+ 

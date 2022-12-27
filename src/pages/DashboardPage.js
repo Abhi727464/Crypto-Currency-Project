@@ -59,12 +59,13 @@ const DashboardPage = () => {
         <div>
           <Header />
           <Search search={search} onChange={onChange} />
-          <Tabs coins={search ? filteredCoins : paginatedCoins} />
+          <Tabs coins={search ? filteredCoins : paginatedCoins} setSearch={setSearch}/>
          {
           !search && (
             <PaginationComponent
             pageNumber={pageNumber}
             handleChange={handlePageChange}
+            setSearch={setSearch}
           />
           )
          }

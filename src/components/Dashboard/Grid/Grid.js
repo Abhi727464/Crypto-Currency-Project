@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.css";
 import TrendingUpRoundedIcon from "@mui/icons-material/TrendingUpRounded";
 import TrendingDownRoundedIcon from "@mui/icons-material/TrendingDownRounded";
 import { motion } from "framer-motion";
+import { IconButton } from "@mui/material";
+import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import { addToWatchlist } from "../../../functions/addToWatchlist";
+import { hasBeenAdded } from "../../../functions/hasBeenAdded";
+import {removeFromWatchlist} from "../../../functions/removeFromWatchlist"
 
-const Grid = ({ coin,delay }) => {
+const Grid = ({ coin, delay ,isWatchlistPage}) => {
+  const [added, setAdded] = useState(hasBeenAdded(coin.id));
   return (
     <a href={`/coin/${coin.id}`}>
       <motion.div
@@ -14,6 +21,7 @@ const Grid = ({ coin,delay }) => {
         className={`grid-container ${
           coin.price_change_percentage_24h < 0 && "grid-container-red"
         }`}
+        style={{ display: isWatchlistPage && !added && "none" }}
       >
         <div className="info-flex">
           <img src={coin.image} alt="" className="coin-image" />
@@ -21,6 +29,33 @@ const Grid = ({ coin,delay }) => {
             <h3 className="coin-symbol">{coin.symbol}</h3>
             <p className="coin-name">{coin.name}</p>
           </div>
+          <IconButton
+            className="icon"
+            onClick={(e) => {
+              e.preventDefault();
+              if (added) {
+                removeFromWatchlist(coin.id);
+                setAdded(false);
+              } else {
+                addToWatchlist(coin.id);
+                setAdded(true);
+              }
+            }}
+          >
+            {!hasBeenAdded(coin.id) ?(<BookmarkAddRoundedIcon
+              className={`watchlist-icon ${
+                coin.price_change_percentage_24h < 0 && "watchlist-icon-red"
+              } `}
+            />)
+          :
+          (<BookmarkAddedIcon
+            className={`watchlist-icon ${
+              coin.price_change_percentage_24h < 0 && "watchlist-icon-red"
+            } `}
+          />)
+          }
+            
+          </IconButton>
         </div>
         {coin.price_change_percentage_24h > 0 ? (
           <div className="info-flex">
@@ -46,10 +81,13 @@ const Grid = ({ coin,delay }) => {
         </p>
         <p className="coin-name bold">
           Total Volume:{" "}
-          <span className="coin-name">{coin.total_volume.toLocaleString()}</span>
+          <span className="coin-name">
+            {coin.total_volume.toLocaleString()}
+          </span>
         </p>
         <p className="coin-name bold">
-          Market Cap: <span className="coin-name">${coin.market_cap.toLocaleString()}</span>
+          Market Cap:{" "}
+          <span className="coin-name">${coin.market_cap.toLocaleString()}</span>
         </p>
       </motion.div>
     </a>

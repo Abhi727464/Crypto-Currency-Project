@@ -26,6 +26,12 @@ const Compare = () => {
     datasets: [],
   });
 
+  const handlePriceTypeChange = async (e) => {
+    setPriceType(e.target.value);
+    const prices1 = await getCoinPrices(coin1, days, e.target.value);
+    const prices2 = await getCoinPrices(coin2, days, e.target.value);
+    settingChartData(setChartData, prices1, coin1Data, coin2Data, prices2);
+  };
   const handleCoinChange = async (e, isCoin1) => {
     if (isCoin1) {
       setCoin1(e.target.value);
@@ -91,10 +97,10 @@ const Compare = () => {
             <List coin={coin2Data} delay={0.2} />
           </div>
           <div className="grey-wrapper">
-            {/* <PriceToggle
+            <PriceToggle
               handlePriceTypeChange={handlePriceTypeChange}
               priceType={priceType}
-            /> */}
+            />
             <LineChart
               chartData={chartData}
               multiAxis={true}
