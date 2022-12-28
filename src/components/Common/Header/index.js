@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Button/Button";
 import MobileDrawer from "./Drawer";
-import { Switch } from "@mui/material";
+import { createTheme, Switch, ThemeProvider } from "@mui/material";
 import { toast } from "react-toastify";
 import "./style.css";
 const Header = () => {
@@ -15,6 +15,14 @@ const Header = () => {
       setLight();
     }
   }, []);
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#23BDE0",
+      },
+    },
+  });
 
   const changeMode = () => {
     setDarkMode(!darkMode);
@@ -43,13 +51,14 @@ const Header = () => {
         CryptoMania <span style={{ color: "var(--blue)" }}>.</span>
       </h1>
       <div className="links-flex">
-      <Switch
-          checked={darkMode}
-          onClick={() => {
-            changeMode();
-          }}
-        />
-     
+        <ThemeProvider theme={theme}>
+          <Switch
+            checked={darkMode}
+            onClick={() => {
+              changeMode();
+            }}
+          />
+        </ThemeProvider>
 
         <a href="/">
           <p className="link">Home</p>

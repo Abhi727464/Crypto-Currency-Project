@@ -4,6 +4,7 @@ import Button from "../components/Common/Button/Button";
 import Header from "../components/Common/Header";
 import Tabs from "../components/Dashboard/Tabs/Tabs";
 import { get100Coins } from "../functions/get100Coins";
+import Footer from "../components/Common/Footer/Footer";
 
 const WishList = () => {
   const coins = JSON.parse(localStorage.getItem("watchlist"));
@@ -51,6 +52,7 @@ const WishList = () => {
           )}
         </>
       )}
+      <Footer/>
     </div>
   );
 };

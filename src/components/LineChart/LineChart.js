@@ -5,6 +5,7 @@ import { Chart as ChartJS } from "chart.js/auto";
 import { convertNumbers } from "../../functions/convertNumbers";
 
 const LineChart = ({ chartData, priceType, multiAxis }) => {
+  console.log("hi",  multiAxis)
   const options = {
     plugins: {
       legend: {

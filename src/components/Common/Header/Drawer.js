@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import { Switch } from "@mui/material";
+import { createTheme, Switch, ThemeProvider } from "@mui/material";
 import { toast } from "react-toastify";
 
 export default function MobileDrawer() {
@@ -27,6 +27,13 @@ export default function MobileDrawer() {
       setDark();
     }
   };
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#23BDE0",
+      },
+    },
+  });
 
   const setDark = () => {
     localStorage.setItem("theme", "dark");
@@ -59,12 +66,15 @@ export default function MobileDrawer() {
         alignItems:"center",
         justifyContent:"flex-start"}}>
           <p className="link">{darkMode? "Dark": "Light"}</p>
+
+          <ThemeProvider theme={theme}>
          <Switch
           checked={darkMode}
           onClick={() => {
             changeMode();
           }}
         />
+        </ThemeProvider>
          </div>
         </div>
       </Drawer>

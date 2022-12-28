@@ -19,7 +19,6 @@ export const settingChartData = (
         backgroundColor: prices2 ? "transparent" : "rgba(58, 128, 233,0.2)",
         borderColor: "#35b1ce",
         pointRadius: 0,
-        yAxisID: "y1",
       },
       prices2 && {
         label: coin2?.name ?? "",
